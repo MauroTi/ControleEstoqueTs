@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Estoque</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <main class="container">
+    <h1>Controle de Estoque</h1>
+
+    <section class="card">
+      <form id="formProduto">
+        <input type="text" id="nome" placeholder="Nome" required />
+        <input type="text" id="categoria" placeholder="Categoria" required />
+        <input type="number" id="quantidade" placeholder="Quantidade" required />
+        <input type="number" id="preco" placeholder="Preço" step="0.01" required />
+
+        <button type="submit">Cadastrar</button>
+      </form>
+      <div id="errosForm" class="erros-form"></div>
+    </section>
+
+    <section class="card">
+      <h2>Produtos cadastrados</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+            <th>Total</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaProdutos"></tbody>
+      </table>
+
+      <h3 id="valorTotalEstoque" class="total">Total em estoque: R$ 0,00</h3>
+    </section>
+  </main>
+
+  <div id="modalEditar" class="modal">
+    <div class="modal-box">
+      <h2>Editar Produto</h2>
+
+      <input type="hidden" id="editarId">
+
+      <input type="text" id="editarNome" placeholder="Nome">
+      <input type="text" id="editarCategoria" placeholder="Categoria">
+      <input type="number" id="editarQuantidade" placeholder="Quantidade">
+      <input type="number" id="editarPreco" placeholder="Preço" step="0.01">
+
+      <div id="errosModal" class="erros-form"></div>
+
+      <div class="botoes-modal">
+        <button id="btnSalvarEdicao">Salvar</button>
+        <button id="btnCancelarEdicao" type="button" class="btn-cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
