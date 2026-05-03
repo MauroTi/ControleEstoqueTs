@@ -34,7 +34,8 @@ form {
     gap: 12px;
 }
 
-input {
+input,
+select {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -53,6 +54,11 @@ button {
 
 button:hover {
     background: #1d4ed8;
+}
+
+button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
 }
 
 .btn-excluir {
@@ -102,6 +108,21 @@ tr:hover {
     text-align: right;
     font-size: 20px;
     margin-top: 20px;
+}
+
+.paginacao-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.paginacao-controles {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 #modalEditar {

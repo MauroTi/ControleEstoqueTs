@@ -1,54 +1,63 @@
 import type { Produto } from '../models/Produto';
-import { carregarProdutos, salvarProdutos } from './ProdutoStorage';
+
+const API_URL = import.meta.env.DEV
+  ? ((import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:5140')
+  : '';
+
+async function handleResponse<T>(response: Response): Promise<T> {
+  if (!response.ok) {
+    throw new Error(`Erro na API: ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  return (await response.json()) as T;
+}
 
 export async function obterProdutos(): Promise<Produto[]> {
-    return carregarProdutos();
+  const response = await fetch(`${API_URL}/api/produtos`);
+  return handleResponse<Produto[]>(response);
 }
 
 export async function adicionarProduto(
-    produtos: Produto[],
-    dadosProduto: Omit<Produto, 'id'>
+  _produtos: Produto[],
+  dadosProduto: Omit<Produto, 'id'>
 ): Promise<Produto[]> {
-    const novoProduto: Produto = {
-        id: Date.now(),
-        ...dadosProduto
-    };
+  const response = await fetch(`${API_URL}/api/produtos`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dadosProduto)
+  });
 
-    const produtosAtualizados = [...produtos, novoProduto];
-
-    salvarProdutos(produtosAtualizados);
-
-    return produtosAtualizados;
+  await handleResponse<Produto>(response);
+  return obterProdutos();
 }
 
 export async function atualizarProduto(
-    produtos: Produto[],
-    id: number,
-    dadosProduto: Omit<Produto, 'id'>
+  _produtos: Produto[],
+  id: number,
+  dadosProduto: Omit<Produto, 'id'>
 ): Promise<Produto[]> {
-    const produtosAtualizados = produtos.map(produto => {
-        if (produto.id !== id) {
-            return produto;
-        }
+  const response = await fetch(`${API_URL}/api/produtos/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, ...dadosProduto })
+  });
 
-        return {
-            ...produto,
-            ...dadosProduto
-        };
-    });
-
-    salvarProdutos(produtosAtualizados);
-
-    return produtosAtualizados;
+  await handleResponse<void>(response);
+  return obterProdutos();
 }
 
 export async function removerProduto(
-    produtos: Produto[],
-    id: number
+  _produtos: Produto[],
+  id: number
 ): Promise<Produto[]> {
-    const produtosAtualizados = produtos.filter(produto => produto.id !== id);
+  const response = await fetch(`${API_URL}/api/produtos/${id}`, {
+    method: 'DELETE'
+  });
 
-    salvarProdutos(produtosAtualizados);
-
-    return produtosAtualizados;
+  await handleResponse<void>(response);
+  return obterProdutos();
 }

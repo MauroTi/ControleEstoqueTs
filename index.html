@@ -24,7 +24,18 @@
     </section>
 
     <section class="card">
-      <h2>Produtos cadastrados</h2>
+      <div class="paginacao-topo">
+        <h2>Produtos cadastrados</h2>
+        <label for="itensPorPagina">
+          Itens por página:
+          <select id="itensPorPagina">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </label>
+      </div>
 
       <table>
         <thead>
@@ -39,6 +50,12 @@
         </thead>
         <tbody id="tabelaProdutos"></tbody>
       </table>
+
+      <div class="paginacao-controles">
+        <button id="btnPaginaAnterior" type="button">Anterior</button>
+        <span id="infoPaginacao">Página 1 de 1</span>
+        <button id="btnProximaPagina" type="button">Próxima</button>
+      </div>
 
       <h3 id="valorTotalEstoque" class="total">Total em estoque: R$ 0,00</h3>
     </section>
